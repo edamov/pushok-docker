@@ -2,10 +2,7 @@ FROM php:7-alpine
 
 MAINTAINER Arthur Edamov <artur.edamov@edamov.com>
 
-RUN apk --update add --no-cache git && \
-
-  # Install nghttp2 and tools (C library for http2)
-  sudo apt-get install g++ make binutils autoconf automake autotools-dev libtool pkg-config \
+RUN apk --update add --no-cache git g++ make binutils autoconf automake autotools-dev libtool pkg-config \
     zlib1g-dev libcunit1-dev libssl-dev libxml2-dev libev-dev libevent-dev libjansson-dev \
     libjemalloc-dev cython python3-dev python-setuptools
     
