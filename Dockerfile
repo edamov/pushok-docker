@@ -15,4 +15,4 @@ RUN apk --update add --no-cache grep openssh-client rsync && \
   # Remove apk cache
   rm -rf /var/cache/apk/
   
-CMD ["php"]
+CMD ["php", "-a"]
