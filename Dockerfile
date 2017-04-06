@@ -1,32 +1,37 @@
-FROM ubuntu:xenial
+FROM php:7-alpine
 
-MAINTAINER Arthur Edamov <edamov@edamov.com>
+MAINTAINER Arthur Edamov <edamov@gmail.com>
 
-RUN apt-get update && apt-get install -y git wget curl g++ make binutils autoconf automake autotools-dev libtool pkg-config \
-    zlib1g-dev libcunit1-dev libssl-dev libxml2-dev libev-dev libevent-dev libjansson-dev \
-    libjemalloc-dev cython python3-dev python-setuptools && \
+# Tutorial is here https://nathanleclaire.com/blog/2016/08/11/curl-with-http2-support---a-minimal-alpine-based-docker-image/
 
-    # Build nghttp2 from source
-    git clone https://github.com/tatsuhiro-t/nghttp2.git && \
-    cd nghttp2 && \
-    autoreconf -i && \
-    automake && \
-    autoconf && \
-    ./configure && \
+# For nghttp2-dev, we need this respository.
+RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >>/etc/apk/repositories
+
+ENV CURL_VERSION 7.50.1
+
+RUN apk add --update --no-cache openssl openssl-dev nghttp2-dev ca-certificates
+
+RUN apk add --update --no-cache --virtual curldeps g++ make perl && \
+    wget https://curl.haxx.se/download/curl-$CURL_VERSION.tar.bz2 && \
+    tar xjvf curl-$CURL_VERSION.tar.bz2 && \
+    rm curl-$CURL_VERSION.tar.bz2 && \
+    cd curl-$CURL_VERSION && \
+    ./configure \
+        --with-nghttp2=/usr \
+        --prefix=/usr \
+        --with-ssl \
+        --enable-ipv6 \
+        --enable-unix-sockets \
+        --without-libidn \
+        --disable-static \
+        --disable-ldap \
+        --with-pic && \
     make && \
     make install && \
+    cd / && \
+    rm -r curl-$CURL_VERSION && \
+    rm -r /var/cache/apk && \
+    rm -r /usr/share/man && \
+    apk del curldeps
 
-    #Install  curl
-    cd ~ && \
-    apt-get build-dep curl -y && \
-    wget http://curl.haxx.se/download/curl-7.46.0.tar.bz2 && \
-    tar -xvjf curl-7.46.0.tar.bz2 && \
-    cd curl-7.46.0 && \
-    ./configure --with-nghttp2=/usr/local --with-ssl && \
-    make && \
-    make install && \
-    ldconfig && \
-  
-    curl --http2 -I nghttp2.org
-  
-CMD ["php", "-a"]
+CMD ["curl"]
