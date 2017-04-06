@@ -1,4 +1,4 @@
-FROM php:7-alpine
+FROM alpine:edge
 
 MAINTAINER Arthur Edamov <edamov@gmail.com>
 
@@ -28,6 +28,7 @@ RUN apk add --update --no-cache --virtual curldeps g++ make perl && \
         --with-pic && \
     make && \
     make install && \
+    apk add --no-cache php7 && \
     cd / && \
     rm -r curl-$CURL_VERSION && \
     rm -r /var/cache/apk && \
