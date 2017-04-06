@@ -1,10 +1,10 @@
 FROM ubuntu:xenial
 
-MAINTAINER Arthur Edamov <artur.edamov@edamov.com>
+MAINTAINER Arthur Edamov <edamov@edamov.com>
 
-RUN sudo apt-get install g++ make binutils autoconf automake autotools-dev libtool pkg-config \
+RUN apt-get update && apt-get install -y g++ make binutils autoconf automake autotools-dev libtool pkg-config \
     zlib1g-dev libcunit1-dev libssl-dev libxml2-dev libev-dev libevent-dev libjansson-dev \
-    libjemalloc-dev cython python3-dev python-setuptools && \
+    libjemalloc-dev cython python3-dev python-setuptools git && \
 
     # Build nghttp2 from source
     git clone https://github.com/tatsuhiro-t/nghttp2.git && \
@@ -14,18 +14,18 @@ RUN sudo apt-get install g++ make binutils autoconf automake autotools-dev libto
     autoconf && \
     ./configure && \
     make && \
-    sudo make install && \
+    make install && \
 
     #Install  curl
     cd ~ && \
-    sudo apt-get build-dep curl && \
+    apt-get build-dep curl && \
     wget http://curl.haxx.se/download/curl-7.46.0.tar.bz2 && \
     tar -xvjf curl-7.46.0.tar.bz2 && \
     cd curl-7.46.0 && \
     ./configure --with-nghttp2=/usr/local --with-ssl && \
     make && \
-    sudo make install && \
-    sudo ldconfig && \
+    make install && \
+    ldconfig && \
   
     curl --http2 -I nghttp2.org
   
