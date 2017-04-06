@@ -2,12 +2,7 @@ FROM ubuntu:xenial
 
 MAINTAINER Arthur Edamov <artur.edamov@edamov.com>
 
-RUN 
-
-    # Get build requirements
-    # Some of these are used for the Python bindings
-    # this package also installs
-    sudo apt-get install g++ make binutils autoconf automake autotools-dev libtool pkg-config \
+RUN sudo apt-get install g++ make binutils autoconf automake autotools-dev libtool pkg-config \
     zlib1g-dev libcunit1-dev libssl-dev libxml2-dev libev-dev libevent-dev libjansson-dev \
     libjemalloc-dev cython python3-dev python-setuptools && \
 
