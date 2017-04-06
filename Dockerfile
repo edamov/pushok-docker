@@ -29,7 +29,7 @@ RUN apk add --update --no-cache --virtual curldeps g++ make perl && \
     make && \
     make install
 
-RUN apk add --update --no-cache php7 php7-openssl php7-mbstring php7-json php7-phar && \
+RUN apk add --update --no-cache php7 php7-openssl php7-mbstring php7-json php7-phar php7-curl php7-xml php7-intl && \
 
     #Install composer
     cd / && \
