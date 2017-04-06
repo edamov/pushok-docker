@@ -2,9 +2,9 @@ FROM ubuntu:xenial
 
 MAINTAINER Arthur Edamov <edamov@edamov.com>
 
-RUN apt-get update && apt-get install -y g++ make binutils autoconf automake autotools-dev libtool pkg-config \
+RUN apt-get update && apt-get install -y git wget curl g++ make binutils autoconf automake autotools-dev libtool pkg-config \
     zlib1g-dev libcunit1-dev libssl-dev libxml2-dev libev-dev libevent-dev libjansson-dev \
-    libjemalloc-dev cython python3-dev python-setuptools git wget && \
+    libjemalloc-dev cython python3-dev python-setuptools && \
 
     # Build nghttp2 from source
     git clone https://github.com/tatsuhiro-t/nghttp2.git && \
