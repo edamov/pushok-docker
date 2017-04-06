@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y g++ make binutils autoconf automake aut
 
     #Install  curl
     cd ~ && \
-    apt-get build-dep curl && \
+    apt-get build-dep curl -y && \
     wget http://curl.haxx.se/download/curl-7.46.0.tar.bz2 && \
     tar -xvjf curl-7.46.0.tar.bz2 && \
     cd curl-7.46.0 && \
