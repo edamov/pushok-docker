@@ -48,7 +48,6 @@ RUN apk add --update --no-cache \
         apache-ant \
         autoconf \
         gcc \
-#        git \
         php7-dev \
         php7-pear \
         openssh \
