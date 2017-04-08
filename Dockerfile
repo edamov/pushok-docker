@@ -12,6 +12,20 @@ ENV XDEBUG_VERSION 2.5.1
 
 RUN apk add --update --no-cache openssl openssl-dev nghttp2-dev ca-certificates
 
+RUN apk add --update --no-cache \
+        php7 \
+        php7-curl \
+        php7-dom \
+        php7-gmp \
+        php7-intl \
+        php7-json \
+        php7-mbstring \
+        php7-openssl \
+        php7-phar \
+        php7-xdebug \
+        php7-xml \
+        php7-xmlwriter
+
 RUN apk add --update --no-cache --virtual curldeps g++ make perl && \
     wget https://curl.haxx.se/download/curl-$CURL_VERSION.tar.bz2 && \
     tar xjvf curl-$CURL_VERSION.tar.bz2 && \
@@ -29,20 +43,6 @@ RUN apk add --update --no-cache --virtual curldeps g++ make perl && \
         --with-pic && \
     make && \
     make install
-
-RUN apk add --update --no-cache \
-        php7 \
-#        php7-curl \
-        php7-dom \
-        php7-gmp \
-        php7-intl \
-        php7-json \
-        php7-mbstring \
-        php7-openssl \
-        php7-phar \
-        php7-xdebug \
-        php7-xml \
-        php7-xmlwriter
 
 RUN apk add --update --no-cache \
         apache-ant \
