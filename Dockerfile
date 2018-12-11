@@ -4,11 +4,10 @@ MAINTAINER Arthur Edamov <edamov@gmail.com>
 
 # Tutorial is here https://nathanleclaire.com/blog/2016/08/11/curl-with-http2-support---a-minimal-alpine-based-docker-image/
 
-# For nghttp2-dev, we need this respository.
-RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >>/etc/apk/repositories
-
-ENV CURL_VERSION 7.50.1
-ENV XDEBUG_VERSION 2.5.1
+ENV CURL_VERSION 7.62.0
+ENV XDEBUG_VERSION 2.6.1
+# 1.8.0
+ENV COMPOSER_VERSION_HASH d3e09029468023aa4e9dcd165e9b6f43df0a9999
 
 RUN apk add --update --no-cache openssl openssl-dev nghttp2-dev ca-certificates
 
@@ -22,6 +21,8 @@ RUN apk add --update --no-cache \
         php7-mbstring \
         php7-openssl \
         php7-phar \
+        php7-simplexml \
+        php7-tokenizer \
         php7-xdebug \
         php7-xml \
         php7-xmlwriter
@@ -48,6 +49,7 @@ RUN apk add --update --no-cache \
         apache-ant \
         autoconf \
         gcc \
+        git \
         php7-dev \
         php7-pear \
         openssh \
@@ -69,11 +71,9 @@ RUN apk add --update --no-cache \
 
 #Install composer
 RUN cd / && \
-    php -r "copy('http://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    wget https://raw.githubusercontent.com/composer/getcomposer.org/$COMPOSER_VERSION_HASH/web/installer -O composer-setup.php && \
     php composer-setup.php && \
-    php -r "unlink('composer-setup.php');" && \
-
+    rm composer-setup.php && \
     rm -r curl-$CURL_VERSION && \
     rm -r /var/cache/apk && \
     rm -r /usr/share/man && \
